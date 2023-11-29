@@ -1,6 +1,6 @@
 %%% New formatting script
-data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ca_threshold';
-% data_folder = 'C:\Users\arrio\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_42and31\new threshold';
+% data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ca_threshold';
+data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_42and31\new threshold';
 file_list = dir(data_folder);
 
 
@@ -298,13 +298,45 @@ for c = 1:size(detection_table_dprimed_2,2)
 end
 
 
-for t = 1:size(rnorm_more,2)
-    hold on
 
-     quick = 1: 1001; %size(rnorm_more,2);
-    plot(quick, rnorm_more{t},'o-')
 
+hold on
+quick = 1:length(rnorm_more);
+
+
+for i = 1:length(rnorm_more)
+    plot(i, rnorm_more{i}, '-o');
 end
+
+
+
+%breaks computer; probably just continously looping with no end?
+% hold on
+% quick = 1:length(rnorm_more);
+% 
+% 
+% for i = 1:length(rnorm_more)
+%     plot(quick, rnorm_more{i}, 'o-');
+% end
+
+
+
+
+
+
+
+%wrong? no wrong!
+
+% for t = 1:size(rnorm_more,2)
+%     hold on
+% 
+%      quick = 1:10; %size(rnorm_more,2);
+%      plot(quick, rnorm_more{quick},'o-')
+% %     plot(quick, rnorm_more{quick}, 'o-')
+% % xlabel = ('Trials');
+% % ylabel = ('Rnorm');
+% 
+% end
 % ran_try = randn(1001,1);
 %  plot(quick, ran_try)
 
@@ -359,6 +391,29 @@ end
 %        
 % 
      % detection_table_pdetect(stim_amp_idx, j) = detection_table{j}.pDetect(s);
+
+     %% sliding window increased
+     wind_size = 100;
+for i = 1:(size(bigtable,1) - wind_size + 10) % might be off by 1 trial
+    current_window = i:i+wind_size-1;
+    [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
+end
+
+% Use bigtable or detection_table to figure out what the unique stim
+% amplitudes are
+% unique_stim_amp = ....; DONE
+% detection_table_dprime = NaN(length(unique_stim_amp), DONE
+% length(detection_table));
+num_windows = size(detection_table, 2);
+StimAmps = unique(bigtable.TestStimAmp); % actual stim amp values
+num_stim_amp = length(StimAmps);
+detection_table_dprimed = NaN(num_stim_amp, num_windows);
+
+
+
+
+
+detection_table_dprimed_2 = [];
 
 %% starting over plotting
 
