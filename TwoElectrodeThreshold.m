@@ -310,6 +310,9 @@ xlabel('Trials', 'FontSize', 18)
 ylabel('Rsnorm', 'FontSize', 18)
 
 
+
+
+
 %breaks computer; probably just continously looping with no end?
 % hold on
 % quick = 1:length(rnorm_more);
@@ -318,11 +321,6 @@ ylabel('Rsnorm', 'FontSize', 18)
 % for i = 1:length(rnorm_more)
 %     plot(quick, rnorm_more{i}, 'o-');
 % end
-
-
-
-
-
 
 
 %wrong? no wrong!
@@ -392,11 +390,13 @@ ylabel('Rsnorm', 'FontSize', 18)
 % 
      % detection_table_pdetect(stim_amp_idx, j) = detection_table{j}.pDetect(s);
 
-     %% sliding window increased
+     %% sliding window for dprime
+     %increase to 100 and moving through increaments of 10
+     
      wind_size = 100;
 for i = 1:(size(bigtable,1) - wind_size + 10) % might be off by 1 trial
     current_window = i:i+wind_size-1;
-    [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
+    % [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
 end
 
 % Use bigtable or detection_table to figure out what the unique stim
