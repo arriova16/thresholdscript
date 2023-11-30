@@ -392,51 +392,45 @@ ylabel('Rsnorm', 'FontSize', 18)
 
      %% sliding window for dprime
      %increase to 100 and moving through increaments of 10
-     
+
      wind_size = 100;
-for i = 1:(size(bigtable,1) - wind_size + 10) % might be off by 1 trial
+for i = 1:(size(bigtable,1) - wind_size + 1) % might be off by 1 trial
     current_window = i:i+wind_size-1;
     % [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
 end
 
-% Use bigtable or detection_table to figure out what the unique stim
-% amplitudes are
-% unique_stim_amp = ....; DONE
-% detection_table_dprime = NaN(length(unique_stim_amp), DONE
-% length(detection_table));
-num_windows = size(detection_table, 2);
-StimAmps = unique(bigtable.TestStimAmp); % actual stim amp values
-num_stim_amp = length(StimAmps);
-detection_table_dprimed = NaN(num_stim_amp, num_windows);
 
 
 
 
 
-detection_table_dprimed_2 = [];
-
-%% starting over plotting
-
-dprime_threshold = 1.35;
-% sigfun = @(c,x) (1./(1 + exp(-c(1).*(x-c(2)))));
 
 
-for i = 1:length(block_struct)
-  
-    x = block_struct(i).DetectionRates.Amplitude;
-    y = block_struct(i).DetectionRates.dPrime;
-    scatter(x,y,50, rgb(33, 33, 33), "filled")
-    plot(x,y, 'Color', rgb(33, 33, 33), 'LineStyle', ':')
-
-    xq = linspace(x(1), x(end));
-    yq = sigfun(block_struct(i).DetectionRates.dPrime, xq);
-    f= fit(x,y);
-%     plot(xq, yq, 'Color', rgb(33, 33, 33))
-%     [~,b] = min(abs(yq-dprime_threshold));
-%     plot([0 xq(b) xq(b)], [dprime_threshold, dprime_threshold -1], 'Color', [.4 .4 .4], 'LineStyle','--')
-end
 
 
+
+ %% starting over plotting
+% 
+% dprime_threshold = 1.35;
+% % sigfun = @(c,x) (1./(1 + exp(-c(1).*(x-c(2)))));
+% 
+% 
+% for i = 1:length(block_struct)
+% 
+%     x = block_struct(i).DetectionRates.Amplitude;
+%     y = block_struct(i).DetectionRates.dPrime;
+%     scatter(x,y,50, rgb(33, 33, 33), "filled")
+%     plot(x,y, 'Color', rgb(33, 33, 33), 'LineStyle', ':')
+% 
+%     xq = linspace(x(1), x(end));
+%     yq = sigfun(block_struct(i).DetectionRates.dPrime, xq);
+%     f= fit(x,y);
+% %     plot(xq, yq, 'Color', rgb(33, 33, 33))
+% %     [~,b] = min(abs(yq-dprime_threshold));
+% %     plot([0 xq(b) xq(b)], [dprime_threshold, dprime_threshold -1], 'Color', [.4 .4 .4], 'LineStyle','--')
+% end
+% 
+% 
 
 
 % box off
@@ -478,70 +472,70 @@ end
 % end
 % https://www.mathworks.com/matlabcentral/answers/525387-how-to-use-a1-exp-x-b1-c1-2-formula-and-how-to-define-a-b-and-c-coefficents
 
-%% creating sliding window 
-%create structure
-%first and last 500 trials
-bin = struct(); ii = 1;
-monkey_name = 'Pinot';
-bin_type = {1 2};
-
-for t = 1:length(bin_type)
-    
-    bin(ii).Monkey = monkey_name;
-    
-    bin(ii).bin_num = bin_type{t};
-    
-    bin_one = bigtable(1:500,:);
-    
-    bin_two = bigtable(end-500:end,:);
-
-    bin(1).ResponseTable = bin_one;
-    bin(2).ResponseTable = bin_two;
-
-    [detection_table_1, coeff_table_1] = AnalyzeDetectionTable(bin_one);
-    [detection_table_2, coeff_table_2] = AnalyzeDetectionTable(bin_two);
-    
-    bin(1).DetectionTable = detection_table_1; 
-    bin(2).DetectionTable = detection_table_2;
-    bin(1).CoeffTable = coeff_table_1; 
-    bin(2).CoeffTable = coeff_table_2;
-    
-    ii = ii + 1;
-end
-
-[bigdetectiontable, bigcoefftable] = AnalyzeDetectionTable(bigtable);
-%% plotting and getting the threshold points
-
-dprime_threshold = 1.35;
-% c(1) = rate of change, c(2) = x-offset, c(3) = multiplier, c(4) = offset
-sigfun = @(c,x) (c(3) .* (1./(1 + exp(-c(1).*(x-c(2)))))) + c(4); 
-binsize = (1:2);
-for i = 1:length(bin)
-    figure;hold on
-    x = bin(i).DetectionTable.StimAmp;
-    y = bin(i).DetectionTable.dPrime;
-    scatter(x,y,50, [.4 .4 .4], "filled")
-    plot(x,y, 'Color', [.4 .4 .4], 'LineStyle', ':')
-    xq = linspace(x(1), x(end));
-    yq = sigfun(bin(i).CoeffTable.dPrime, xq);
-    plot(xq, yq, 'Color', [.4 .4 .4])
-    [~,b] = min(abs(yq-dprime_threshold));
-    plot([0 xq(b) xq(b)], [dprime_threshold, dprime_threshold -1], 'Color', [.4 .4 .4], 'LineStyle','--')
-    text(x(end), 4-5*0.05, sprintf('d'' = %0.1f', xq(b)), 'VerticalAlignment', 'top', 'HorizontalAlignment', 'right')
-    set(gca, 'YLim', [-1 4], 'YTick', [-1:4])
-    ylabel('d'''); xlabel(sprintf('ICMS Amplitude (%sA)', GetUnicodeChar('mu')))
-    x0 = [100,-1];
-    ydata = [1 500];
-    something = lsqcurvefit(sigfun, x0, ydata, bin(2).CoeffTable);
-end
-%%
-figure; hold on
- ax = gca;
- ax.FontSize = 18;
-binsize = [500, 2000, 100];
-spacing = linspace(0,30, 2);
- set(groot,'defaultLineMarkerSize',18);
-% luck = binsize(1);
-% unluck = bin(1).CoeffTable.dPrime(1,2);
-% scatter( bin(1).CoeffTable.dPrime(1,2),binsize(1))
-% scatter(bin(2).CoeffTable.dPrime(1,2),binsize
+% %% creating sliding window 
+% %create structure
+% %first and last 500 trials
+% bin = struct(); ii = 1;
+% monkey_name = 'Pinot';
+% bin_type = {1 2};
+% 
+% for t = 1:length(bin_type)
+% 
+%     bin(ii).Monkey = monkey_name;
+% 
+%     bin(ii).bin_num = bin_type{t};
+% 
+%     bin_one = bigtable(1:500,:);
+% 
+%     bin_two = bigtable(end-500:end,:);
+% 
+%     bin(1).ResponseTable = bin_one;
+%     bin(2).ResponseTable = bin_two;
+% 
+%     [detection_table_1, coeff_table_1] = AnalyzeDetectionTable(bin_one);
+%     [detection_table_2, coeff_table_2] = AnalyzeDetectionTable(bin_two);
+% 
+%     bin(1).DetectionTable = detection_table_1; 
+%     bin(2).DetectionTable = detection_table_2;
+%     bin(1).CoeffTable = coeff_table_1; 
+%     bin(2).CoeffTable = coeff_table_2;
+% 
+%     ii = ii + 1;
+% end
+% 
+% [bigdetectiontable, bigcoefftable] = AnalyzeDetectionTable(bigtable);
+% %% plotting and getting the threshold points
+% 
+% dprime_threshold = 1.35;
+% % c(1) = rate of change, c(2) = x-offset, c(3) = multiplier, c(4) = offset
+% sigfun = @(c,x) (c(3) .* (1./(1 + exp(-c(1).*(x-c(2)))))) + c(4); 
+% binsize = (1:2);
+% for i = 1:length(bin)
+%     figure;hold on
+%     x = bin(i).DetectionTable.StimAmp;
+%     y = bin(i).DetectionTable.dPrime;
+%     scatter(x,y,50, [.4 .4 .4], "filled")
+%     plot(x,y, 'Color', [.4 .4 .4], 'LineStyle', ':')
+%     xq = linspace(x(1), x(end));
+%     yq = sigfun(bin(i).CoeffTable.dPrime, xq);
+%     plot(xq, yq, 'Color', [.4 .4 .4])
+%     [~,b] = min(abs(yq-dprime_threshold));
+%     plot([0 xq(b) xq(b)], [dprime_threshold, dprime_threshold -1], 'Color', [.4 .4 .4], 'LineStyle','--')
+%     text(x(end), 4-5*0.05, sprintf('d'' = %0.1f', xq(b)), 'VerticalAlignment', 'top', 'HorizontalAlignment', 'right')
+%     set(gca, 'YLim', [-1 4], 'YTick', [-1:4])
+%     ylabel('d'''); xlabel(sprintf('ICMS Amplitude (%sA)', GetUnicodeChar('mu')))
+%     x0 = [100,-1];
+%     ydata = [1 500];
+%     something = lsqcurvefit(sigfun, x0, ydata, bin(2).CoeffTable);
+% end
+% %%
+% figure; hold on
+%  ax = gca;
+%  ax.FontSize = 18;
+% binsize = [500, 2000, 100];
+% spacing = linspace(0,30, 2);
+%  set(groot,'defaultLineMarkerSize',18);
+% % luck = binsize(1);
+% % unluck = bin(1).CoeffTable.dPrime(1,2);
+% % scatter( bin(1).CoeffTable.dPrime(1,2),binsize(1))
+% % scatter(bin(2).CoeffTable.dPrime(1,2),binsize
