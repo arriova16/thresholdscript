@@ -1,6 +1,6 @@
 %%% New formatting script
 % data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ca_threshold';
-data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_42and31\new threshold';
+data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ca_threshold';
 file_list = dir(data_folder);
 
 
@@ -270,8 +270,6 @@ detection_table_dprimed = NaN(num_stim_amp, num_windows);
 
 
 
-
-
 detection_table_dprimed_2 = [];
 for j = 1:length(detection_table)
     % For each sliding window table, find what stim amps are there, and
@@ -308,6 +306,8 @@ for i = 1:length(rnorm_more)
     plot(i, rnorm_more{i}, '-o');
 end
 
+xlabel('Trials', 'FontSize', 18)
+ylabel('Rsnorm', 'FontSize', 18)
 
 
 %breaks computer; probably just continously looping with no end?
