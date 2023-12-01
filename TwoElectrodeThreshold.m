@@ -395,18 +395,30 @@ ylabel('Rsnorm', 'FontSize', 18)
 
      wind_size = 100;
 for i = 1:(size(bigtable,1) - wind_size + 1) % might be off by 1 trial
-    current_window = i:i+wind_size-1;
+    current_window = i:i+wind_size - 1;
     % [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
 end
 
 
 
+% temp = 1:1000;
+% i = 10:10:1000
 
+% i = 10:10:1000;
+% for i = 10:10:100
+% length(temp(end-i:end))
+% end
+% 
+% i = 10:10:100;
+% for r = 1:length(i)
+% length(temp(end-i(r):end))
+% end
 
+% inc = 20;
+% i = 10:inc:100
+% inc = 50;
 
-
-
-
+% i = 10:inc:100
 
 
  %% starting over plotting
