@@ -399,6 +399,14 @@ for i = 1:(size(bigtable,1) - wind_size + 1) % might be off by 1 trial
     % [detection_table{i}, coeff_table{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
 end
 
+%      wind_size = 100;
+% for i = 1:(size(bigtable,1) - wind_size + 1) % might be off by 1 trial
+%      current_window = i:i+wind_size-1;
+%     next = i+10:i+wind_size-1;
+%      [detection_table_next{i}, coeff_table_next{i}] = AnalyzeDetectionTable(bigtable(next, :));
+%      [detection_table_current{i}, coeff_table_current{i}] = AnalyzeDetectionTable(bigtable(current_window, :));
+% end
+
 
 
 % temp = 1:1000;
