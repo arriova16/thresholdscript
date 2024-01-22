@@ -1,6 +1,6 @@
 %%% New formatting script
 % data_folder = 'C:\Users\Somlab\Box\BensmaiaLab\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ca_threshold';
-data_folder = 'B:\ProjectFolders\DARPA\Data\RawData\Pinot\Electrode_31and41\ThresholdTask\Cathodic';
+data_folder = 'B:\ProjectFolders\DARPA\Data\RawData\Whistlepig\Electrodde_3and15\ThresholdTask\Cathodic';
 file_list = dir(data_folder);
 
 
