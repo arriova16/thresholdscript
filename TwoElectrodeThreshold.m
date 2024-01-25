@@ -195,24 +195,24 @@ end
 %% plotting for bigtable
 subplot(1,2,1);
 hold on;
-plot(combtable_DetectionRates{:,1}, combtable_DetectionRates{:,2},'o-', 'MarkerSize', 5,'Color', rgb(198, 40, 40), 'LineWidth', 4);
+plot(combtable_DetectionRates{:,1}, combtable_DetectionRates{:,2},'o-', 'MarkerSize', 5,'Color', rgb(33, 33, 33), 'LineWidth', 4);
 ax = gca;
 ax.FontSize = 18;
 xlabel(sprintf('Stimulus Amplitude (%sA)', GetUnicodeChar('mu')), 'FontSize', 18);
 ylabel('p(Detected)', 'FontSize', 18);
-
+axis square
 
 
 
 subplot(1,2,2);
 hold on;
-plot(combtable_DetectionRates{:,1}, combtable_DetectionRates{:,3},'o-','MarkerSize', 5, 'Color', rgb(198, 40, 40), 'LineWidth', 4);
+plot(combtable_DetectionRates{:,1}, combtable_DetectionRates{:,3},'o-','MarkerSize', 5, 'Color', rgb(33, 33, 33), 'LineWidth', 4);
 ax = gca;
 ax.FontSize = 18;
 xlabel(sprintf('Stimulus Amplitude (%sA)', GetUnicodeChar('mu')), 'FontSize', 18);
 ylabel('d''', 'FontSize', 18);
 y_line = 1.35; % Specify the y-value for the y-line
-
+axis square
 % Find the intersection
 
 x_data = combtable_DetectionRates{:,1}; 
